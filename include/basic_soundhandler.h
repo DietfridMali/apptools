@@ -91,11 +91,11 @@ class BasicSoundHandler
 
         // play back the sound with the name 'name'. Position, viewer and DistFunc serve for computing the sound volume
         // depending on the distance of the viewer to the sound position
-        SoundObject* Start(const String& name, const SoundParams& params, size_t startTime, const Vector3f position = Vector3f::NONE, const void* owner = nullptr);
+        SoundObject* Start(const String& soundName, const SoundParams& params, size_t startTime, const Vector3f position = Vector3f::NONE, const void* owner = nullptr);
 
         template <typename T>
         inline int Play(T&& soundName, const SoundParams& params, size_t startTime, const Vector3f position = Vector3f::NONE, const void* owner = nullptr) {
-            SoundObject* activeSound = Start(std::forward<T>(soundName), params, startTime, position, owner, &activeSound);
+            SoundObject* activeSound = Start(std::forward<T>(soundName), params, startTime, position, owner);
             return (activeSound == nullptr) ? -1 : activeSound->m_id;
         }
 
