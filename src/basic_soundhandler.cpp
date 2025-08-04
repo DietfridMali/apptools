@@ -77,11 +77,11 @@ void BasicSoundHandler::LoadSounds(String soundFolder, List<String> soundNames) 
 }
 
 
-void BasicSoundHandler::UpdateVolume(SoundObject& soundObject, float d) {
-    if (d >= m_maxAudibleDistance)
+void BasicSoundHandler::UpdateVolume(SoundObject& soundObject, float distance) {
+    if (distance >= m_maxAudibleDistance)
         soundObject.SetVolume(0);
     else {
-        float volume = (m_maxAudibleDistance - d) / m_maxAudibleDistance;
+        float volume = (m_maxAudibleDistance - distance) / m_maxAudibleDistance;
         // use half of the angle for stereo panning. Always let the remote ear hear something, too. Pan effect the weaker the further away the sound is.
         float pan = Pan(soundObject.m_position) * 0.5f * 0.9f * volume;   
         volume *= volume * soundObject.m_volume * m_masterVolume;
@@ -109,9 +109,9 @@ SoundObject& BasicSoundHandler::GetChannel(void) {
 
 SoundObject* BasicSoundHandler::FindSoundByOwner(const void* owner, const String& soundName) {
     if (owner != nullptr) {
-        for (auto& c : m_busyChannels) {
-            if ((c.m_owner == owner) && (c.m_name == soundName)) 
-                return &c;
+        for (auto& so : m_busyChannels) {
+            if ((so.m_owner == owner) && (so.m_name == soundName)) 
+                return &so;
         }
     }
     return nullptr;
@@ -168,6 +168,8 @@ void BasicSoundHandler::Cleanup(void) {
 // cleanup expired channels and update sound volumes
 void BasicSoundHandler::Update(void) {
     Cleanup();
+    for (auto& so : m_busyChannels)
+        UpdateSound(so);
 }
 
 // =================================================================================================

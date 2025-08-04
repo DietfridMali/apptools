@@ -95,8 +95,7 @@ class BasicSoundHandler
 
         template <typename T>
         inline int Play(T&& soundName, const SoundParams& params, size_t startTime, const Vector3f position = Vector3f::NONE, const void* owner = nullptr) {
-            SoundObject* activeSound;
-            return Play(static_cast<const String&>(soundName), params, startTime, position, owner, &activeSound);
+            SoundObject* activeSound = Start(std::forward<T>(soundName), params, startTime, position, owner, &activeSound);
             return (activeSound == nullptr) ? -1 : activeSound->m_id;
         }
 
@@ -115,7 +114,7 @@ class BasicSoundHandler
         // compute stereo panning from the angle between the viewer direction and the vector from the viewer to the sound source
         virtual float Pan(Vector3f& position) { return 0.0f; }
 
-        void UpdateVolume(SoundObject& soundObject, float d);
+        void UpdateVolume(SoundObject& soundObject, float distance);
 
         // get a channel for playing back a new sound
         // if all channels are busy, pick the oldest busy one
