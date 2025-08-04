@@ -12,6 +12,7 @@
 class Timer {
 public:
     int  m_startTime;
+    int  m_endTime;
     int  m_lapTime;
     int  m_duration;
     int  m_slack;
@@ -27,8 +28,12 @@ public:
     }
 
 
-    inline int Start(int offset = 0) {
-        return m_startTime = SDL_GetTicks() + offset;
+    int Start(int duration = 0) {
+        if (duration > 0)
+            m_duration = duration;
+        m_startTime = SDL_GetTicks();
+        m_endTime = m_startTime + m_duration;
+        return m_startTime;
     }
 
 
@@ -52,6 +57,12 @@ public:
     inline int StartTime(void) {
         return m_startTime;
     }
+
+
+    inline int EndTime(void) {
+        return m_endTime;
+    }
+
 
     inline int RemainingTime(void) {
         return m_duration - GetLapTime();
