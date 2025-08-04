@@ -11,13 +11,13 @@
 
 class Timer {
 public:
-    int  m_time;
+    int  m_startTime;
     int  m_lapTime;
     int  m_duration;
     int  m_slack;
 
     Timer(int duration = 0)
-        : m_time(0), m_lapTime(0), m_duration(duration), m_slack(0)
+        : m_startTime(0), m_lapTime(0), m_duration(duration), m_slack(0)
     {
     }
 
@@ -28,12 +28,12 @@ public:
 
 
     inline int Start(int offset = 0) {
-        return m_time = SDL_GetTicks() + offset;
+        return m_startTime = SDL_GetTicks() + offset;
     }
 
 
     inline int GetLapTime(void) {
-        return m_lapTime = SDL_GetTicks() - m_time;
+        return m_lapTime = SDL_GetTicks() - m_startTime;
     }
 
 
@@ -41,13 +41,17 @@ public:
         GetLapTime();
         if (time == 0)
             time = m_duration;
-        if ((m_time > 0) && (m_lapTime < time))
+        if ((m_startTime > 0) && (m_lapTime < time))
             return false;
         if (restart)
             Start();
         return true;
     }
 
+
+    inline int StartTime(void) {
+        return m_startTime;
+    }
 
     inline int RemainingTime(void) {
         return m_duration - GetLapTime();

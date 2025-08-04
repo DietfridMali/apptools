@@ -15,6 +15,11 @@ void SoundObject::Play (int loops) {
 #endif
 }
 
+void SoundObject::FadeOut(int fadeTime) {
+    m_endTime = SDL_GetTicks() + fadeTime;
+    Mix_FadeOutChannel(m_channel, fadeTime);
+}
+
 void SoundObject::Stop (void) {
     Mix_HaltChannel (m_channel);
 }
@@ -31,6 +36,10 @@ bool SoundObject::Busy (void) const {
     return bool (Mix_Playing (m_channel));
 }
 
+bool SoundObject::IsSilent(void) const {
+    return (m_endTime > 0) and (m_endTime < SDL_GetTicks());
+}
+
 // =================================================================================================
 // The sound handler class handles sound creation and sound channel management
 // It tries to provide 128 sound channels. They are preinitialized and are kept in m_idleChannels
@@ -40,7 +49,7 @@ bool SoundObject::Busy (void) const {
 // append to busyChannels in the temporal sequence they are deployed, the first channel in busyChannels
 // will always be the oldest one.
 
-BasicSoundHandler::BasicSoundHandler () {
+BasicSoundHandler::BasicSoundHandler() {
 #if !(USE_STD || USE_STD_MAP)
     m_sounds.SetComparator(String::Compare);
 #endif
@@ -149,19 +158,28 @@ SoundObject* BasicSoundHandler::Start(const String& soundName, const SoundParams
 
 
 void BasicSoundHandler::Stop(int id) {
-    ConditionalStop([id](const SoundObject& c) { return c.m_id == id; });
+    ConditionalStop([id](const SoundObject& so) { return so.m_id == id; });
 }
 
 
 void BasicSoundHandler::StopSoundsByOwner(void* owner) {
     if (owner != nullptr)
-        ConditionalStop([owner](const SoundObject& c) { return c.m_owner == owner; });
+        ConditionalStop([owner](const SoundObject& so) { return so.m_owner == owner; });
 }
 
 
 // move all channels that are not playing back sound anymore from the busyChannels to the idleChannels list
 void BasicSoundHandler::Cleanup(void) {
-    ConditionalStop([](const SoundObject& c) { return not c.Busy(); });
+    ConditionalStop([](const SoundObject& so) { return not so.Busy(); });
+}
+
+
+void BasicSoundHandler::FadeOut(int id, int fadeTime) {
+    for (auto so : m_busyChannels)
+        if ((so.m_id == id) and so.Busy()) {
+            so.FadeOut(fadeTime);
+            break;
+        }
 }
 
 

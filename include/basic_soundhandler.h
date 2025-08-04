@@ -23,11 +23,12 @@ class SoundObject
         int         m_channel;
         float       m_volume;
         Vector3f    m_position;
-        void*      m_owner;
+        void*       m_owner;
         size_t      m_startTime;
+        size_t      m_endTime;
 
         SoundObject(int id = -1, String name = String(""), int channel = -1, Mix_Chunk * sound = nullptr, Vector4f position = {0, 0, 0}, float volume = 1.0f)
-            : m_id(id), m_channel(channel), m_sound(sound), m_position(position), m_owner (nullptr), m_volume(volume), m_startTime (0)
+            : m_id(id), m_channel(channel), m_sound(sound), m_position(position), m_owner (nullptr), m_volume(volume), m_startTime (0), m_endTime(0)
         {}
 
         ~SoundObject () {
@@ -37,6 +38,8 @@ class SoundObject
 
         void Play (int loops = 1);
 
+        void FadeOut(int fadeTime);
+
         void Stop (void);
 
         void SetPanning (float left, float right);
@@ -44,6 +47,8 @@ class SoundObject
         void SetVolume (float volume);
 
         bool Busy (void) const;
+
+        bool IsSilent(void) const;
     };
 
     // =================================================================================================
@@ -99,6 +104,8 @@ class BasicSoundHandler
             return (activeSound == nullptr) ? -1 : activeSound->m_id;
         }
 
+        void FadeOut(int id, int fadeTime);
+            
         void Stop(int id);
 
         void StopSoundsByOwner(void* owner);
