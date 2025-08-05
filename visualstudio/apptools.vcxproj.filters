@@ -18,7 +18,7 @@
     <ClInclude Include="..\include\arghandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\basic_soundhandler.h">
+    <ClInclude Include="..\include\base_soundhandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\tabledimensions.h">
@@ -41,7 +41,7 @@
     <ClCompile Include="..\src\arghandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\basic_soundhandler.cpp">
+    <ClCompile Include="..\src\base_soundhandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\textfileloader.cpp">

@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "singletonbase.hpp"
 #include "string.hpp"
 #include "sharedpointer.hpp"
 #include "list.hpp"
@@ -89,6 +90,7 @@ class Argument
 // =================================================================================================
 
 class ArgHandler 
+    : public BaseSingleton<ArgHandler>
 {
     public:
         Dictionary<String, Argument>    m_argList;
@@ -122,6 +124,6 @@ class ArgHandler
         bool BoolVal(const char* key, int i = 0, bool defVal = false);
  };
 
-extern ArgHandler* argHandler;
+#define argHandler ArgHandler::Instance
 
 // =================================================================================================

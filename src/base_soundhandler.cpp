@@ -1,6 +1,6 @@
 
 #include "arghandler.h"
-#include "basic_soundhandler.h"
+#include "base_soundhandler.h"
 
 // =================================================================================================
 
@@ -49,12 +49,12 @@ bool SoundObject::IsSilent(void) const {
 // append to busyChannels in the temporal sequence they are deployed, the first channel in busyChannels
 // will always be the oldest one.
 
-BasicSoundHandler::BasicSoundHandler() {
+BaseSoundHandler::BaseSoundHandler() {
 #if !(USE_STD || USE_STD_MAP)
     m_sounds.SetComparator(String::Compare);
 #endif
-    m_soundLevel = argHandler->IntVal("soundlevel", 0, 1);
-    m_masterVolume = argHandler->FloatVal("masterVolume", 0, 1);
+    m_soundLevel = argHandler.IntVal("soundlevel", 0, 1);
+    m_masterVolume = argHandler.FloatVal("masterVolume", 0, 1);
     m_maxAudibleDistance = 30.0f;
     Mix_Quit();
     Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
@@ -74,7 +74,7 @@ BasicSoundHandler::BasicSoundHandler() {
 
 
 // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
-void BasicSoundHandler::LoadSounds(String soundFolder, List<String> soundNames) {
+void BaseSoundHandler::LoadSounds(String soundFolder, List<String> soundNames) {
     for (auto& name : soundNames) {
         String fileName = soundFolder + name + ".wav";
         Mix_Chunk* sound = Mix_LoadWAV (fileName.Data());
@@ -86,7 +86,7 @@ void BasicSoundHandler::LoadSounds(String soundFolder, List<String> soundNames) 
 }
 
 
-void BasicSoundHandler::UpdateVolume(SoundObject& soundObject, float distance) {
+void BaseSoundHandler::UpdateVolume(SoundObject& soundObject, float distance) {
     if (distance >= m_maxAudibleDistance)
         soundObject.SetVolume(0);
     else {
@@ -102,7 +102,7 @@ void BasicSoundHandler::UpdateVolume(SoundObject& soundObject, float distance) {
 
 // get a channel for playing back a new sound
 // if all channels are busy, pick the oldest busy one
-SoundObject& BasicSoundHandler::GetChannel(void) {
+SoundObject& BaseSoundHandler::GetChannel(void) {
     if (not m_idleChannels.IsEmpty()) {
         m_busyChannels.Append(m_idleChannels.Last());
         m_idleChannels.DiscardLast();
@@ -116,7 +116,7 @@ SoundObject& BasicSoundHandler::GetChannel(void) {
 }
 
 
-SoundObject* BasicSoundHandler::FindSoundByOwner(const void* owner, const String& soundName) {
+SoundObject* BaseSoundHandler::FindSoundByOwner(const void* owner, const String& soundName) {
     if (owner != nullptr) {
         for (auto& so : m_busyChannels) {
             if ((so.m_owner == owner) && (so.m_name == soundName)) 
@@ -129,7 +129,7 @@ SoundObject* BasicSoundHandler::FindSoundByOwner(const void* owner, const String
 
 // play back the sound with the soundName 'soundName'. Position, viewer and DistFunc serve for computing the sound volume
 // depending on the distance of the viewer to the sound position
-SoundObject* BasicSoundHandler::Start(const String& soundName, const SoundParams& params, size_t startTime, const Vector3f position, const void* owner) {
+SoundObject* BaseSoundHandler::Start(const String& soundName, const SoundParams& params, size_t startTime, const Vector3f position, const void* owner) {
     //return -1;
     if ((m_soundLevel == 0) or (params.level > m_soundLevel))
         return nullptr;
@@ -157,24 +157,24 @@ SoundObject* BasicSoundHandler::Start(const String& soundName, const SoundParams
 }
 
 
-void BasicSoundHandler::Stop(int id) {
+void BaseSoundHandler::Stop(int id) {
     ConditionalStop([id](const SoundObject& so) { return so.m_id == id; });
 }
 
 
-void BasicSoundHandler::StopSoundsByOwner(void* owner) {
+void BaseSoundHandler::StopSoundsByOwner(void* owner) {
     if (owner != nullptr)
         ConditionalStop([owner](const SoundObject& so) { return so.m_owner == owner; });
 }
 
 
 // move all channels that are not playing back sound anymore from the busyChannels to the idleChannels list
-void BasicSoundHandler::Cleanup(void) {
+void BaseSoundHandler::Cleanup(void) {
     ConditionalStop([](const SoundObject& so) { return not so.Busy(); });
 }
 
 
-void BasicSoundHandler::FadeOut(int id, int fadeTime) {
+void BaseSoundHandler::FadeOut(int id, int fadeTime) {
     for (auto so : m_busyChannels)
         if ((so.m_id == id) and so.Busy()) {
             so.FadeOut(fadeTime);
@@ -184,7 +184,7 @@ void BasicSoundHandler::FadeOut(int id, int fadeTime) {
 
 
 // cleanup expired channels and update sound volumes
-void BasicSoundHandler::Update(void) {
+void BaseSoundHandler::Update(void) {
     Cleanup();
     for (auto& so : m_busyChannels)
         UpdateSound(so);

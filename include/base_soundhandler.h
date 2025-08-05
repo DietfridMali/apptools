@@ -9,6 +9,7 @@
 #include "array.hpp"
 #include "list.hpp"
 #include "dictionary.hpp"
+#include "singletonbase.hpp"
 
 #include <math.h>
 
@@ -60,7 +61,8 @@ class SoundObject
 // append to busyChannels in the temporal sequence they are deployed, the first channel in busyChannels
 // will always be the oldest one.
 
-class BasicSoundHandler 
+class BaseSoundHandler 
+    : public BaseSingleton<BaseSoundHandler>
 {
     public:
         Dictionary<String, Mix_Chunk*>  m_sounds;
@@ -77,9 +79,9 @@ class BasicSoundHandler
             int level = 1;
         };
 
-        BasicSoundHandler();
+        BaseSoundHandler();
 
-        ~BasicSoundHandler() = default;
+        ~BaseSoundHandler() = default;
 
         // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
         void LoadSounds(String soundFolder, List<String> soundNames);

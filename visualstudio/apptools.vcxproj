@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\arghandler.h" />
     <ClInclude Include="..\include\networkmessage.h" />
-    <ClInclude Include="..\include\basic_soundhandler.h" />
+    <ClInclude Include="..\include\base_soundhandler.h" />
     <ClInclude Include="..\include\tabledimensions.h" />
     <ClInclude Include="..\include\textfileloader.h" />
     <ClInclude Include="..\include\timer.h" />
@@ -30,7 +30,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\arghandler.cpp" />
     <ClCompile Include="..\src\networkmessage.cpp" />
-    <ClCompile Include="..\src\basic_soundhandler.cpp" />
+    <ClCompile Include="..\src\base_soundhandler.cpp" />
     <ClCompile Include="..\src\textfileloader.cpp" />
     <ClCompile Include="..\src\udp.cpp" />
   </ItemGroup>
