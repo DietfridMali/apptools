@@ -49,7 +49,7 @@ bool SoundObject::IsSilent(void) const {
 // append to busyChannels in the temporal sequence they are deployed, the first channel in busyChannels
 // will always be the oldest one.
 
-BaseSoundHandler::BaseSoundHandler() {
+void BaseSoundHandler::Setup(void) {
 #if !(USE_STD || USE_STD_MAP)
     m_sounds.SetComparator(String::Compare);
 #endif
@@ -58,14 +58,14 @@ BaseSoundHandler::BaseSoundHandler() {
     m_maxAudibleDistance = 30.0f;
     Mix_Quit();
     Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
-    if (0 > Mix_OpenAudio (48000, AUDIO_S16SYS, 2, 4096))
-        fprintf (stderr, "Couldn't initialize sound system (%s)\n", Mix_GetError ());
+    if (0 > Mix_OpenAudio(48000, AUDIO_S16SYS, 2, 4096))
+        fprintf(stderr, "Couldn't initialize sound system (%s)\n", Mix_GetError());
 #if 0
     int frequency, channels;
     Uint16 format;
     Mix_QuerySpec(&frequency, &format, &channels);
 #endif
-    Mix_Volume (-1, MIX_MAX_VOLUME);
+    Mix_Volume(-1, MIX_MAX_VOLUME);
     Mix_AllocateChannels(128);
     m_channelCount = Mix_AllocateChannels(-1);
     for (int i = 0; i < m_channelCount; i++)

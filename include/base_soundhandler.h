@@ -79,11 +79,13 @@ class BaseSoundHandler
             int level = 1;
         };
 
-        BaseSoundHandler();
+        BaseSoundHandler() { _instance = this; }
 
         ~BaseSoundHandler() = default;
 
-        static BaseSoundHandler& Instance(void) { return static_cast<BaseSoundHandler&>(SingletonInstance()); }
+        void Setup(void);
+
+        static BaseSoundHandler& Instance(void) { return static_cast<BaseSoundHandler&>(PolymorphSingleton::Instance()); }
 
         // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
         void LoadSounds(String soundFolder, List<String> soundNames);
