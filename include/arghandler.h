@@ -103,8 +103,6 @@ class ArgHandler
 
         bool LineFilter (String& line);
             
-        ArgHandler() = default;
-
         void Add(const String& arg);
 
         void Add(String&& arg) {
@@ -126,6 +124,6 @@ class ArgHandler
         bool BoolVal(const char* key, int i = 0, bool defVal = false);
  };
 
-#define argHandler ArgHandler::Instance
+#define argHandler ArgHandler::Instance()
 
 // =================================================================================================

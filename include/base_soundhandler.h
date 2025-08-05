@@ -62,7 +62,7 @@ class SoundObject
 // will always be the oldest one.
 
 class BaseSoundHandler 
-    : public BaseSingleton<BaseSoundHandler>
+    : public PolymorphSingleton
 {
     public:
         Dictionary<String, Mix_Chunk*>  m_sounds;
@@ -82,6 +82,8 @@ class BaseSoundHandler
         BaseSoundHandler();
 
         ~BaseSoundHandler() = default;
+
+        static BaseSoundHandler& Instance(void) { return static_cast<BaseSoundHandler&>(SingletonInstance()); }
 
         // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
         void LoadSounds(String soundFolder, List<String> soundNames);
