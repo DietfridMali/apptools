@@ -133,15 +133,6 @@ String& Argument::GetVal(int i) {
 
 // =================================================================================================
 
-ArgHandler::ArgHandler(int argC, char** argV) {
-#if !(USE_STD || USE_STD_MAP)
-    m_argList.SetComparator (String::Compare);
-#endif
-    while (--argC > 0)
-        Add(String (*(++argV)));
-}
-
-
 void ArgHandler::Add(const String& arg) {
     Argument a;
     String key = a.Create(arg);
@@ -151,6 +142,16 @@ void ArgHandler::Add(const String& arg) {
 
 bool ArgHandler::LineFilter (String& line) {
     return (line [0] != '#') && (line [0] != ';');
+}
+
+
+int ArgHandler::LoadArgs(int argC, char** argV) {
+#if !(USE_STD || USE_STD_MAP)
+    m_argList.SetComparator(String::Compare);
+#endif
+    for (int i = argC; i > 0; --i)
+        Add(String(*(++argV)));
+    return argC;
 }
 
 

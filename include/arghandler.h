@@ -103,13 +103,15 @@ class ArgHandler
 
         bool LineFilter (String& line);
             
-        ArgHandler(int argC, char** argV);
+        ArgHandler() = default;
 
         void Add(const String& arg);
 
         void Add(String&& arg) {
             Add(static_cast<const String&>(arg));
         }
+
+        int LoadArgs(int argC, char** argV);
 
         int LoadArgs(const char* fileName = "smileybattle.ini");
 
