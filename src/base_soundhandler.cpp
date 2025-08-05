@@ -190,4 +190,6 @@ void BaseSoundHandler::Update(void) {
         UpdateSound(so);
 }
 
+BaseSoundHandler* baseSoundHandler = nullptr;
+
 // =================================================================================================

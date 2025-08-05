@@ -62,7 +62,7 @@ class SoundObject
 // will always be the oldest one.
 
 class BaseSoundHandler 
-    : public PolymorphSingleton
+    : public PolymorphSingleton<BaseSoundHandler>
 {
     public:
         Dictionary<String, Mix_Chunk*>  m_sounds;
@@ -149,5 +149,7 @@ class BaseSoundHandler
             }
         }
 };
+
+extern BaseSoundHandler* baseSoundHandlerInstance;
 
 // =================================================================================================

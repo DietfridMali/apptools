@@ -149,7 +149,7 @@ int ArgHandler::LoadArgs(int argC, char** argV) {
 #if !(USE_STD || USE_STD_MAP)
     m_argList.SetComparator(String::Compare);
 #endif
-    for (int i = argC; i > 0; --i)
+    for (int i = argC; i > 1; --i)
         Add(String(*(++argV)));
     return argC;
 }
@@ -194,8 +194,6 @@ float ArgHandler::FloatVal(const char* key, int i, float defVal) {
 bool ArgHandler::BoolVal(const char* key, int i, bool defVal) {
     return bool(IntVal(key, i, int(defVal)));
 }
-
-ArgHandler* argHandler = nullptr;
 
 // =================================================================================================
 
