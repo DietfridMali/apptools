@@ -18,21 +18,19 @@ public:
     int  m_slack;
 
     Timer(int duration = 0)
-        : m_startTime(0), m_lapTime(0), m_duration(duration), m_slack(0)
+        : m_startTime(0), m_endTime(0), m_lapTime(0), m_duration(duration), m_slack(0)
     {
     }
 
 
-    inline void Setup(int duration) {
+    inline void SetDuration(int duration) {
         m_duration = duration;
     }
 
 
-    int Start(int duration = 0) {
-        if (duration > 0)
-            m_duration = duration;
-        m_startTime = SDL_GetTicks();
-        m_endTime = m_startTime + m_duration;
+    int Start(int offset = 0) {
+        m_startTime = SDL_GetTicks() + offset;
+        m_endTime = m_startTime + offset + m_duration;
         return m_startTime;
     }
 
