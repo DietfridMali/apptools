@@ -85,14 +85,14 @@ class BaseSoundHandler
 
         virtual ~BaseSoundHandler() = default;
 
-        virtual void Setup(String soundFolder);
+        virtual bool Setup(String soundFolder);
 
         virtual int32_t GetSoundNames(List<String>& soundNames) { return 0; }
 
         static BaseSoundHandler& Instance(void) { return dynamic_cast<BaseSoundHandler&>(PolymorphSingleton::Instance()); }
 
         // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
-        void LoadSounds(String soundFolder);
+        bool LoadSounds(String soundFolder);
 
         SoundObject* FindSoundByOwner(const void* owner, const String& soundName);
 

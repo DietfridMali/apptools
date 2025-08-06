@@ -70,7 +70,6 @@ bool BaseSoundHandler::Setup(String soundFolder) {
     m_channelCount = Mix_AllocateChannels(-1);
     for (int i = 0; i < m_channelCount; i++)
         m_idleChannels.Append(SoundObject(i, String(""), i));
-
     return LoadSounds(soundFolder);
 }
 
