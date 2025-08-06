@@ -156,6 +156,4 @@ class BaseSoundHandler
         }
 };
 
-extern BaseSoundHandler* baseSoundHandlerInstance;
-
 // =================================================================================================
