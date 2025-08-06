@@ -87,7 +87,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -130,7 +133,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\..\cpptools\include;..\include;..\..\SDL2-2.30.10\include;..\..\SDL2_mixer-2.8.1\include;..\..\SDL2_net-2.0.1\include;..\..\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\cpptools\include;..\include;..\..\SDL2-2.30.10\include;..\..\SDL2_mixer-2.8.1\include;..\..\SDL2_net-2.0.1\include;..\..\glm;..\..\glew-2.2.0\include\GL</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -149,6 +152,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\cpptools\include;..\include;..\..\SDL2-2.30.10\include;..\..\SDL2_mixer-2.8.1\include;..\..\SDL2_net-2.0.1\include;..\..\glm</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
