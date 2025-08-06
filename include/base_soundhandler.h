@@ -79,16 +79,20 @@ class BaseSoundHandler
             int level = 1;
         };
 
-        BaseSoundHandler() { _instance = this; }
+        BaseSoundHandler()
+            : m_soundLevel(0), m_masterVolume(0.0f), m_maxAudibleDistance(0.0f), m_channelCount(0)
+        { }
 
-        ~BaseSoundHandler() = default;
+        virtual ~BaseSoundHandler() = default;
 
-        void Setup(void);
+        virtual void Setup(String soundFolder);
 
-        static BaseSoundHandler& Instance(void) { return static_cast<BaseSoundHandler&>(PolymorphSingleton::Instance()); }
+        virtual int32_t GetSoundNames(List<String>& soundNames) { return 0; }
+
+        static BaseSoundHandler& Instance(void) { return dynamic_cast<BaseSoundHandler&>(PolymorphSingleton::Instance()); }
 
         // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
-        void LoadSounds(String soundFolder, List<String> soundNames);
+        void LoadSounds(String soundFolder);
 
         SoundObject* FindSoundByOwner(const void* owner, const String& soundName);
 

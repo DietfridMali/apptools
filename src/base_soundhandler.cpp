@@ -49,7 +49,7 @@ bool SoundObject::IsSilent(void) const {
 // append to busyChannels in the temporal sequence they are deployed, the first channel in busyChannels
 // will always be the oldest one.
 
-void BaseSoundHandler::Setup(void) {
+bool BaseSoundHandler::Setup(String soundFolder) {
 #if !(USE_STD || USE_STD_MAP)
     m_sounds.SetComparator(String::Compare);
 #endif
@@ -70,19 +70,28 @@ void BaseSoundHandler::Setup(void) {
     m_channelCount = Mix_AllocateChannels(-1);
     for (int i = 0; i < m_channelCount; i++)
         m_idleChannels.Append(SoundObject(i, String(""), i));
+
+    return LoadSounds(soundFolder);
 }
 
 
 // preload sound data. Sound data is kept in a dictionary. The sound name is the key to it.
-void BaseSoundHandler::LoadSounds(String soundFolder, List<String> soundNames) {
+bool BaseSoundHandler::LoadSounds(String soundFolder) {
+    List<String> soundNames;
+    if (0 == GetSoundNames(soundNames))
+        return false;
+    bool isComplete = true;
     for (auto& name : soundNames) {
         String fileName = soundFolder + name + ".wav";
         Mix_Chunk* sound = Mix_LoadWAV (fileName.Data());
         if (sound)
             m_sounds.Insert(name, sound);
-        else
-            fprintf (stderr, "Couldn't load sound '%s' (%s)\n", name.Data(), Mix_GetError ());
+        else {
+            isComplete = false;
+            fprintf(stderr, "Couldn't load sound '%s' (%s)\n", name.Data(), Mix_GetError());
+        }
     }
+    return isComplete;
 }
 
 
