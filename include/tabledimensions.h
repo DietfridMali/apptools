@@ -36,7 +36,7 @@ public:
     }
 
     bool operator== (TableDimensions& other) {
-        return (m_cols == other.m_cols) && (m_rows == other.m_rows);
+        return (m_cols == other.m_cols) and (m_rows == other.m_rows);
     }
 
     inline int GetSize(void) const {

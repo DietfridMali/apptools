@@ -44,7 +44,7 @@ public:
         GetLapTime();
         if (time == 0)
             time = m_duration;
-        if ((m_startTime > 0) && (m_lapTime < time))
+        if ((m_startTime > 0) and (m_lapTime < time))
             return false;
         if (restart)
             Start();

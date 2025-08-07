@@ -127,7 +127,7 @@ SoundObject& BaseSoundHandler::GetChannel(void) {
 SoundObject* BaseSoundHandler::FindSoundByOwner(const void* owner, const String& soundName) {
     if (owner != nullptr) {
         for (auto& so : m_busyChannels) {
-            if ((so.m_owner == owner) && (so.m_name == soundName)) 
+            if ((so.m_owner == owner) and (so.m_name == soundName)) 
                 return &so;
         }
     }

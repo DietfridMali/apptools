@@ -141,7 +141,7 @@ void ArgHandler::Add(const String& arg) {
 
 
 bool ArgHandler::LineFilter (String& line) {
-    return (line [0] != '#') && (line [0] != ';');
+    return (line [0] != '#') and (line [0] != ';');
 }
 
 
