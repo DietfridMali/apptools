@@ -27,9 +27,6 @@
     <ClInclude Include="..\include\textfileloader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\udp.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -24,7 +24,6 @@
     <ClInclude Include="..\include\base_soundhandler.h" />
     <ClInclude Include="..\include\tabledimensions.h" />
     <ClInclude Include="..\include\textfileloader.h" />
-    <ClInclude Include="..\include\timer.h" />
     <ClInclude Include="..\include\udp.h" />
   </ItemGroup>
   <ItemGroup>
